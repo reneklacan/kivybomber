@@ -1,0 +1,3 @@
+title=Simplibomber
+author=Rene
+orientation=landscape
