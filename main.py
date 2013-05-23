@@ -70,7 +70,7 @@ class MainWidget(BoxLayout):
 
     def play(self, level=None):
         self.clear_widgets()
-        level_cls = None
+        levels = []
         if level is not None:
             level_cls = LevelBase
             LevelBase.name = level['name']
@@ -78,8 +78,26 @@ class MainWidget(BoxLayout):
             LevelBase.monster_dict = level['monster_dict']
             LevelBase.effects_propability = level['effects_propability']
             LevelBase.grid_size = level['grid_size']
+            levels.append(level_cls)
+        else:
+            for level_filename in os.listdir('levels'):
+                if not level_filename.endswith('.json'):
+                    continue
+                
+                with open('levels/' + level_filename) as f:
+                    level = json.loads(f.read())
 
-        self.game = Game(level=level_cls, android=False)
+                class LevelTmp(LevelBase):
+                    name = level['name']
+                    layout = level['layout']
+                    monster_dict = level['monster_dict']
+                    effects_propability = level['effects_propability']
+                    grid_size = level['grid_size']
+
+                level_cls = LevelTmp
+                levels.append(level_cls)
+
+        self.game = Game(levels=levels, android=False)
         self.add_widget(self.game)
 
     def levels(self):

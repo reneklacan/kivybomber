@@ -11,8 +11,9 @@ class Game(FloatLayout):
         FloatLayout.__init__(self, **kwargs)
 
         self.android = kwargs['android']
-        if 'level' in kwargs and kwargs['level'] is not None:
-            self.levels = [kwargs['level']]
+        if 'levels' in kwargs and kwargs['levels'] is not None:
+            self.levels = kwargs['levels']
+            print self.levels
         else:
             self.levels = []
             #self.levels = [Level1, Level2, LevelAI]
